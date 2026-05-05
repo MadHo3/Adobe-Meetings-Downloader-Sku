@@ -13,7 +13,10 @@ def creat_session(username, password, lms) -> requests.session:
     try:
         r = s.post(url, data, timeout=20)
         r.raise_for_status()
-        print("Login Successful")
+        if "Invalid credentials." in r.text:
+            print("Login Failed")
+        else:
+            print("Login Successful")
     except HTTPError as e:
         print(f"Request failed => {e}")
 
