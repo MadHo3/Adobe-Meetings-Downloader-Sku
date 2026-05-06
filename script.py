@@ -5,7 +5,7 @@ from requests.exceptions import HTTPError
 from tqdm import tqdm
 
 
-def creat_session(username, password, lms) -> requests.session:
+def create_session(username, password, lms) -> requests.session:
 
     s = requests.session()
     url = f"https://lms{lms}.sku.ac.ir/system/login?domain=lms{lms}.sku.ac.ir&next=/admin?domain=lms{lms}.sku.ac.ir&set-lang=en"
@@ -74,7 +74,7 @@ def main():
     if "lms2" in download_url:
         lms_server = 2
 
-    user_session, isLogin = creat_session(username, national_id, lms_server)
+    user_session, isLogin = create_session(username, national_id, lms_server)
 
     if isLogin:
         download_class_files(user_session, download_url)
