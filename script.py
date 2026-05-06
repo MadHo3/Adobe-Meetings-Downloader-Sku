@@ -58,12 +58,15 @@ def download_class_files(s, url, filename):
             # Extract ZIP
             os.makedirs(filename, exist_ok=True)
             os.makedirs(f"{filename}/videos", exist_ok=True)
+            os.makedirs(f"{filename}/chats", exist_ok=True)
             os.makedirs(f"{filename}/xml", exist_ok=True)
 
             with zipfile.ZipFile("class.zip", "r") as zipf:
                 for file in zipf.infolist():
                     if ".flv" in file.filename:
                         zipf.extract(file.filename, f"./{filename}/videos")
+                    elif "sco_metadata" in file.filename:
+                        zipf.extract(file.filename, f"./{filename}/chats")
                     else:
                         zipf.extract(file.filename, f"./{filename}/xml")
 
@@ -81,18 +84,30 @@ def convert(dir_name):
 
     os.chdir(f"{dir_name}/videos")
     vid_list = sorted(os.listdir())
+    share_list = []
+
+    # check if screen share exist
+    share_is_exist = False
+
     with open("vidlist.txt", "w") as l:
         for vid in vid_list:
-            if ".flv" in vid:
+
+            if "screenshare" in vid:
+                share_is_exist = True
+                share_list.append(vid)
+                continue
+
+            if (".flv" in vid) and has_content(vid):
                 l.write(f"file '{vid}'\n")
+
+    if share_is_exist:
+        with open("screenlist.txt", "w") as l:
+            for share in sorted(share_list):
+                if (".flv" in share) and has_content(share):
+                    l.write(f"file '{share}'\n")
 
     # ffmpeg convert
     run = True
-
-    if os.path.exists(f"{dir_name}.flv"):
-        answ = input("[!] Warning: Already exists. Do you want to rewrite it ? ([Y/n])")
-        if answ.lower() in ["n", "no"]:
-            run = False
 
     if run:
         try:
@@ -106,11 +121,48 @@ def convert(dir_name):
         except Exception as e:
             print(f"[-] Failed: Couldn't convert the file => {e}")
 
+        if share_is_exist:
+            try:
+                ffmpeg.input("screenlist.txt", f="concat", safe="0").output(
+                    f"{dir_name}_screen.flv",
+                    vcodec="copy",
+                    af="aresample=async=1",
+                    acodec="aac",
+                    audio_bitrate="192k",
+                ).run(overwrite_output=True)
+            except Exception as e:
+                print(f"[-] Failed: Couldn't convert the file => {e}")
+
         for vid in vid_list:
             os.remove(vid)
 
     if os.path.exists("vidlist.txt"):
         os.remove("vidlist.txt")
+
+    if os.path.exists("screenlist.txt"):
+        os.remove("screenlist.txt")
+
+
+def has_content(filepath):
+
+    try:
+        size_bytes = os.path.getsize(filepath)
+
+        # 100KB
+        if size_bytes < 100 * 1024:
+            return False
+
+        probe = ffmpeg.probe(filepath)
+        duration = float(probe["format"]["duration"])
+
+        bitrate = (size_bytes * 8) / duration if duration > 0 else 0
+
+        if bitrate < 10000:
+            return False
+
+        return True
+    except:
+        return False
 
 
 def main():
