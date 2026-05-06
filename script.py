@@ -1,6 +1,7 @@
 import os
 import zipfile
 import requests
+import ffmpeg
 from requests.exceptions import HTTPError
 from tqdm import tqdm
 
@@ -31,7 +32,14 @@ def create_session(username, password, lms) -> requests.session:
 
 
 def download_class_files(s, url, filename):
-    if not os.path.exists(filename):
+
+    run = True
+    if os.path.exists(filename):
+        answ = input("[!] Warning: Already exists. Do you want to rewrite it ? ([Y/n])")
+        if answ.lower() in ["n", "no"]:
+            run = False
+
+    if run:
         try:
             r = s.get(url, stream=True)
             r.raise_for_status()
@@ -48,9 +56,9 @@ def download_class_files(s, url, filename):
             print("[+] Success: ZIP file downloaded successfully")
 
             # Extract ZIP
-            os.makedirs(filename)
-            os.makedirs(f"{filename}/videos")
-            os.makedirs(f"{filename}/xml")
+            os.makedirs(filename, exist_ok=True)
+            os.makedirs(f"{filename}/videos", exist_ok=True)
+            os.makedirs(f"{filename}/xml", exist_ok=True)
 
             with zipfile.ZipFile("class.zip", "r") as zipf:
                 for file in zipf.infolist():
@@ -65,14 +73,44 @@ def download_class_files(s, url, filename):
 
         except HTTPError as e:
             print(f"[-] Failed: Download request failed => {e}")
-    else:
-        print("[!] Warning: File already exists, skipping...")
+
+        convert(filename)
 
 
 def convert(dir_name):
 
     os.chdir(f"{dir_name}/videos")
-    flv_lists = sorted(os.listdir())
+    vid_list = sorted(os.listdir())
+    with open("vidlist.txt", "w") as l:
+        for vid in vid_list:
+            if ".flv" in vid:
+                l.write(f"file '{vid}'\n")
+
+    # ffmpeg convert
+    run = True
+
+    if os.path.exists(f"{dir_name}.flv"):
+        answ = input("[!] Warning: Already exists. Do you want to rewrite it ? ([Y/n])")
+        if answ.lower() in ["n", "no"]:
+            run = False
+
+    if run:
+        try:
+            ffmpeg.input("vidlist.txt", f="concat", safe="0").output(
+                f"{dir_name}.flv",
+                vcodec="copy",
+                af="aresample=async=1",
+                acodec="aac",
+                audio_bitrate="192k",
+            ).run(overwrite_output=True)
+        except Exception as e:
+            print(f"[-] Failed: Couldn't convert the file => {e}")
+
+        for vid in vid_list:
+            os.remove(vid)
+
+    if os.path.exists("vidlist.txt"):
+        os.remove("vidlist.txt")
 
 
 def main():
@@ -96,7 +134,6 @@ def main():
 
     if is_login:
         download_class_files(user_session, download_url, class_code)
-        convert(class_code)
     else:
         print("[-] Failed: Please login to your account")
 
