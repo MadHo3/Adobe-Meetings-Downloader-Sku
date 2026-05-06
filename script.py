@@ -26,7 +26,6 @@ def creat_session(username, password, lms) -> requests.session:
     except HTTPError as e:
         print(f"Request failed => {e}")
 
-    print(r.text)
     return s, isLogin
 
 
@@ -40,10 +39,14 @@ def download_class_files(s, url):
                     file.write(chunk)
         print("**************************************")
         print("ZIP file downloaded successfully")
+        print("**************************************")
 
         # Extract ZIP
+        class_code = url[23:35]
+        os.makedirs(class_code)
+
         with zipfile.ZipFile("class.zip", "r") as zipf:
-            zipf.extractall(".")
+            zipf.extractall(f"./{class_code}")
 
         os.remove("class.zip")
 
