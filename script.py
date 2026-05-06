@@ -2,6 +2,7 @@ import os
 import zipfile
 import requests
 from requests.exceptions import HTTPError
+from tqdm import tqdm
 
 
 def creat_session(username, password, lms) -> requests.session:
@@ -33,13 +34,16 @@ def download_class_files(s, url):
     try:
         r = s.get(url, stream=True)
         r.raise_for_status()
+
+        file_size = int(r.headers.get("content-length"))
+
         with open("class.zip", "wb") as file:
-            for chunk in r.iter_content(chunk_size=8192):
-                if chunk:
-                    file.write(chunk)
-        print("**************************************")
-        print("ZIP file downloaded successfully")
-        print("**************************************")
+            with tqdm(
+                total=file_size, unit="B", unit_scale=True, desc="Downloading"
+            ) as pbar:
+                for data in r.iter_content(chunk_size=1024):
+                    file.write(data)
+                    pbar.update(len(data))
 
         # Extract ZIP
         class_code = url[23:35]
@@ -69,7 +73,6 @@ def main():
     user_session, isLogin = creat_session(username, national_id, lms_server)
 
     if isLogin:
-        print("Downloading files !!! ")
         download_class_files(user_session, download_url)
     else:
         print("Please login to your account :( ")
