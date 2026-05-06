@@ -31,43 +31,48 @@ def create_session(username, password, lms) -> requests.session:
 
 
 def download_class_files(s, url, filename):
-    try:
-        r = s.get(url, stream=True)
-        r.raise_for_status()
+    if not os.path.exists(filename):
+        try:
+            r = s.get(url, stream=True)
+            r.raise_for_status()
 
-        file_size = int(r.headers.get("content-length"))
+            file_size = int(r.headers.get("content-length"))
 
-        with open("class.zip", "wb") as file:
-            with tqdm(
-                total=file_size, unit="B", unit_scale=True, desc="Downloading"
-            ) as pbar:
-                for data in r.iter_content(chunk_size=1024):
-                    file.write(data)
-                    pbar.update(len(data))
-        print("[+] Success: ZIP file downloaded successfully")
+            with open("class.zip", "wb") as file:
+                with tqdm(
+                    total=file_size, unit="B", unit_scale=True, desc="Downloading"
+                ) as pbar:
+                    for data in r.iter_content(chunk_size=1024):
+                        file.write(data)
+                        pbar.update(len(data))
+            print("[+] Success: ZIP file downloaded successfully")
 
-        # Extract ZIP
-        os.makedirs(filename)
-        os.makedirs(f"{filename}/videos")
-        os.makedirs(f"{filename}/xml")
+            # Extract ZIP
+            os.makedirs(filename)
+            os.makedirs(f"{filename}/videos")
+            os.makedirs(f"{filename}/xml")
 
-        with zipfile.ZipFile("class.zip", "r") as zipf:
-            for file in zipf.infolist():
-                if ".flv" in file.filename:
-                    zipf.extract(file.filename, f"./{filename}/videos")
-                else:
-                    zipf.extract(file.filename, f"./{filename}/xml")
+            with zipfile.ZipFile("class.zip", "r") as zipf:
+                for file in zipf.infolist():
+                    if ".flv" in file.filename:
+                        zipf.extract(file.filename, f"./{filename}/videos")
+                    else:
+                        zipf.extract(file.filename, f"./{filename}/xml")
 
-        print("[+] Success: ZIP file extracted successfully")
+            print("[+] Success: ZIP file extracted successfully")
 
-        os.remove("class.zip")
+            os.remove("class.zip")
 
-    except HTTPError as e:
-        print(f"[-] Failed: Download request failed => {e}")
+        except HTTPError as e:
+            print(f"[-] Failed: Download request failed => {e}")
+    else:
+        print("[!] Warning: File already exists, skipping...")
 
 
-def convert():
-    pass
+def convert(dir_name):
+
+    os.chdir(f"{dir_name}/videos")
+    flv_lists = sorted(os.listdir())
 
 
 def main():
@@ -80,7 +85,7 @@ def main():
     class_code = download_url[23:35]
 
     username = "k" + input("Enter ID (EXAMPLE = 4041406xxx): ")
-    national_id = int(input("Enter National-ID : "))
+    national_id = int(input("Enter National-ID: "))
     print("***********************************************************")
 
     lms_server = 1
