@@ -30,7 +30,7 @@ def create_session(username, password, lms) -> requests.session:
     return s, is_login
 
 
-def download_class_files(s, url):
+def download_class_files(s, url, filename):
     try:
         r = s.get(url, stream=True)
         r.raise_for_status()
@@ -47,11 +47,16 @@ def download_class_files(s, url):
         print("[+] Success: ZIP file downloaded successfully")
 
         # Extract ZIP
-        class_code = url[23:35]
-        os.makedirs(class_code)
+        os.makedirs(filename)
+        os.makedirs(f"{filename}/videos")
+        os.makedirs(f"{filename}/xml")
 
         with zipfile.ZipFile("class.zip", "r") as zipf:
-            zipf.extractall(f"./{class_code}")
+            for file in zipf.infolist():
+                if ".flv" in file.filename:
+                    zipf.extract(file.filename, f"./{filename}/videos")
+                else:
+                    zipf.extract(file.filename, f"./{filename}/xml")
 
         print("[+] Success: ZIP file extracted successfully")
 
@@ -61,11 +66,19 @@ def download_class_files(s, url):
         print(f"[-] Failed: Download request failed => {e}")
 
 
+def convert():
+    pass
+
+
 def main():
     download_url = (
         input("Enter URL (EXAMPLE = https://lms1.sku.ac.ir/xxxxxxxxxxxx): ").rstrip("/")
         + "/output/class.zip?download=zip"
     )
+
+    # dir name
+    class_code = download_url[23:35]
+
     username = "k" + input("Enter ID (EXAMPLE = 4041406xxx): ")
     national_id = int(input("Enter National-ID : "))
     print("***********************************************************")
@@ -77,7 +90,8 @@ def main():
     user_session, is_login = create_session(username, national_id, lms_server)
 
     if is_login:
-        download_class_files(user_session, download_url)
+        download_class_files(user_session, download_url, class_code)
+        convert(class_code)
     else:
         print("[-] Failed: Please login to your account")
 
