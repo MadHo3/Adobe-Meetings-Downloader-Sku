@@ -74,7 +74,7 @@ def main():
     if "lms2" in download_url:
         lms_server = 2
 
-    user_session, is_login = creat_session(username, national_id, lms_server)
+    user_session, is_login = create_session(username, national_id, lms_server)
 
     if is_login:
         download_class_files(user_session, download_url)
