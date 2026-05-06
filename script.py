@@ -5,6 +5,7 @@ import ffmpeg
 from requests.exceptions import HTTPError
 from tqdm import tqdm
 from natsort import natsorted
+import xml.etree.ElementTree as ET
 
 
 def create_session(username, password, lms) -> requests.session:
@@ -62,12 +63,15 @@ def download_class_files(s, url, filename):
             os.makedirs(f"{filename}/chats", exist_ok=True)
             os.makedirs(f"{filename}/xml", exist_ok=True)
 
+            is_chat_exist = False
+
             with zipfile.ZipFile("class.zip", "r") as zipf:
                 for file in zipf.infolist():
                     if ".flv" in file.filename:
                         zipf.extract(file.filename, f"./{filename}/videos")
                     elif "sco_metadata" in file.filename:
                         zipf.extract(file.filename, f"./{filename}/chats")
+                        is_chat_exist = True
                     else:
                         zipf.extract(file.filename, f"./{filename}/xml")
 
@@ -78,7 +82,32 @@ def download_class_files(s, url, filename):
         except HTTPError as e:
             print(f"[-] Failed: Download request failed => {e}")
 
+        # main path
+        path = os.getcwd()
+        if is_chat_exist:
+            extract_chat(filename)
+
+        os.chdir(path)
         convert(filename)
+
+
+def extract_chat(filename):
+
+    os.chdir(f"{filename}/chats")
+    tree = ET.parse("sco_metadata.xml")
+    root = tree.getroot()
+
+    content_texts = []
+    for content in root.iter("content"):
+        if content.text:
+            content_texts.append(content.text.strip())
+    with open("chats.txt", "w") as c:
+        for message in content_texts:
+            if not ("sendMessage6" in message):
+                c.write(f"- {message}\n")
+
+    if os.path.exists("sco_metadata.xml"):
+        os.remove("sco_metadata.xml")
 
 
 def convert(dir_name):
