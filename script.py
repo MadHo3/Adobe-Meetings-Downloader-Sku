@@ -19,13 +19,13 @@ def creat_session(username, password, lms) -> requests.session:
         r = s.post(url, data, timeout=20)
         r.raise_for_status()
         if "Invalid credentials." in r.text:
-            print("Login Failed")
+            print("[-] Failed: Invalid credentials")
             isLogin = False
         else:
             isLogin = True
-            print("Login Successful")
+            print("[+] Success: Authentication completed")
     except HTTPError as e:
-        print(f"Request failed => {e}")
+        print(f"[-] Failed: Request failed => {e}")
 
     return s, isLogin
 
@@ -44,6 +44,7 @@ def download_class_files(s, url):
                 for data in r.iter_content(chunk_size=1024):
                     file.write(data)
                     pbar.update(len(data))
+        print("[+] Success: ZIP file downloaded successfully")
 
         # Extract ZIP
         class_code = url[23:35]
@@ -52,10 +53,12 @@ def download_class_files(s, url):
         with zipfile.ZipFile("class.zip", "r") as zipf:
             zipf.extractall(f"./{class_code}")
 
+        print("[+] Success: ZIP file extracted successfully")
+
         os.remove("class.zip")
 
     except HTTPError as e:
-        print(f"download failed => {e}")
+        print(f"[-] Failed: Download request failed => {e}")
 
 
 def main():
@@ -65,6 +68,7 @@ def main():
     )
     username = "k" + input("Enter ID (EXAMPLE = 4041406xxx): ")
     national_id = int(input("Enter National-ID : "))
+    print("***********************************************************")
 
     lms_server = 1
     if "lms2" in download_url:
@@ -75,7 +79,7 @@ def main():
     if isLogin:
         download_class_files(user_session, download_url)
     else:
-        print("Please login to your account :( ")
+        print("[-] Failed: Please login to your account")
 
 
 if __name__ == "__main__":
