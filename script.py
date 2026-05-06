@@ -20,14 +20,14 @@ def create_session(username, password, lms) -> requests.session:
         r.raise_for_status()
         if "Invalid credentials." in r.text:
             print("[-] Failed: Invalid credentials")
-            isLogin = False
+            is_login = False
         else:
-            isLogin = True
+            is_login = True
             print("[+] Success: Authentication completed")
     except HTTPError as e:
         print(f"[-] Failed: Request failed => {e}")
 
-    return s, isLogin
+    return s, is_login
 
 
 def download_class_files(s, url):
@@ -74,9 +74,9 @@ def main():
     if "lms2" in download_url:
         lms_server = 2
 
-    user_session, isLogin = create_session(username, national_id, lms_server)
+    user_session, is_login = creat_session(username, national_id, lms_server)
 
-    if isLogin:
+    if is_login:
         download_class_files(user_session, download_url)
     else:
         print("[-] Failed: Please login to your account")
