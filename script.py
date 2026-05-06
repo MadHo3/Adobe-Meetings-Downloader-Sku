@@ -4,6 +4,7 @@ import requests
 import ffmpeg
 from requests.exceptions import HTTPError
 from tqdm import tqdm
+from natsort import natsorted
 
 
 def create_session(username, password, lms) -> requests.session:
@@ -83,7 +84,7 @@ def download_class_files(s, url, filename):
 def convert(dir_name):
 
     os.chdir(f"{dir_name}/videos")
-    vid_list = sorted(os.listdir())
+    vid_list = natsorted(os.listdir())
     share_list = []
 
     # check if screen share exist
@@ -102,7 +103,7 @@ def convert(dir_name):
 
     if share_is_exist:
         with open("screenlist.txt", "w") as l:
-            for share in sorted(share_list):
+            for share in natsorted(share_list):
                 if (".flv" in share) and has_content(share):
                     l.write(f"file '{share}'\n")
 
