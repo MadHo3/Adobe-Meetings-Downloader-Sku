@@ -1,1 +1,70 @@
-# Adobe-Meetings-Downloader-Sku
+# Adobe Meetings Downloader SKU
+
+---
+
+## فارسی
+
+### درباره پروژه
+این ابزار برای دانلود و تبدیل خودکار جلسات ضبط‌ شده **Adobe Connect** از سامانهٔ آموزش مجازی دانشگاه شهرکرد (SKU) طراحی شده است.  
+با وارد کردن لینک کلاس، شماره دانشجویی و کد ملی، اسکریپت وارد حساب کاربری شما می‌شود، فایل ZIP کلاس را دانلود کرده، ویدیوهای FLV را استخراج و به ترتیب صحیح به هم می‌چسباند، همچنین گفتگوی متنی کلاس (چت) را جدا کرده و در فایل متنی ذخیره می‌کند.  
+اگر در جلسه اشتراک‌گذاری صفحه وجود داشته باشد، آن را نیز به صورت جداگانه پردازش می‌کند.  
+به دلیل محدودیت‌های ذاتی **Adobe Connect** ممکن است در برخی موارد ترکیب کامل جلسه ممکن نباشد.
+
+### پیش‌نیازها
+- **Python 3.6** یا بالاتر
+- **pip**
+- **ffmpeg**
+
+### نصب و راه‌اندازی
+
+#### لینوکس
+```bash
+# Debian / Ubuntu
+sudo apt update && sudo apt install ffmpeg -y
+git clone https://github.com/MadHo3/Adobe-Meetings-Downloader-Sku.git
+cd Adobe-Meetings-Downloader-Sku
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python3 script.py
+
+# Arch
+sudo pacman -S ffmpeg
+git clone https://github.com/MadHo3/Adobe-Meetings-Downloader-Sku.git
+cd Adobe-Meetings-Downloader-Sku
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python3 script.py
+```
+#### ویندوز
+
+پایتون را از سایت های معتبر دانلود کنید.
+
+برنامه ffmpeg را نصب کنید => [Soft98.ir](https://soft98.ir/multi-media/convert/789-ffmpeg-batch-av-converter.html)
+
+```bash
+git clone https://github.com/MadHo3/Adobe-Meetings-Downloader-Sku.git
+cd Adobe-Meetings-Downloader-Sku
+pip install -r requirements.txt
+python3 script.py
+```
+
+#### نکات :
+
+کد ملی به عنوان رمز عبور استفاده می‌شود.
+
+پس از ورود موفق، اسکریپت به صورت خودکار :
+
+-- فایل ZIP کلاس را دانلود می‌کند.
+
+-- ویدیوها را استخراج کرده.
+
+-- فایل نهایی ترکیب‌شده با نام .flv در پوشه /videos/ ذخیره می‌شود.
+
+-- در صورت وجود اشتراک‌گذاری صفحه، فایل جداگانه screen.flv ایجاد می‌کند.
+
+-- فایل گفتگوها در /chats/chats.txt ذخیره می‌شود.
+
+#### ویدیوی آموزشی (ویندوز)
+<!-- TODO: Add video tutorial for Windows usage -->
