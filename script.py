@@ -195,17 +195,27 @@ def has_content(filepath):
         return False
 
 
-def main():
-    download_url = (
-        input("Enter URL (EXAMPLE = https://lms1.sku.ac.ir/xxxxxxxxxxxx): ").rstrip("/")
-        + "/output/class.zip?download=zip"
-    )
+def main(url=None, st_id=None, nat_id=None):
+    if url is None:
+        download_url = input(
+            "Enter URL (EXAMPLE = https://lms1.sku.ac.ir/xxxxxxxxxxxx): "
+        ).rstrip("/")
+    else:
+        download_url = url.rstrip("/")
 
-    # dir name
+    download_url = download_url + "/output/class.zip?download=zip"
     class_code = download_url[23:35]
 
-    username = "k" + input("Enter ID (EXAMPLE = 4041406xxx): ")
-    national_id = int(input("Enter National-ID: "))
+    if st_id is None:
+        username = "k" + input("Enter ID (EXAMPLE = 4041406xxx): ")
+    else:
+        username = "k" + st_id
+
+    if nat_id is None:
+        national_id = int(input("Enter National-ID: "))
+    else:
+        national_id = int(nat_id)
+
     print("***********************************************************")
 
     lms_server = 1
