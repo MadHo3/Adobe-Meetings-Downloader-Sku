@@ -43,7 +43,8 @@ python3 gui.py
 ```
 #### ویندوز
 
-فایل zip را استخراج کنید.
+فایل zip را استخراج کنید => [Download](https://uplod.ir/zai9c3qhum60/AdobeDownloaderSku.zip.htm)
+
 فایل install.bat را اجرا کنید سپس فایل AdobeDownloaderSku.exe را اجرا کنید.
 
 
