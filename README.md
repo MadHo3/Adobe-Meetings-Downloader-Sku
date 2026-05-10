@@ -27,6 +27,8 @@ python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 python3 script.py
+# GUI version
+python3 gui.py
 
 # Arch
 sudo pacman -S ffmpeg
@@ -36,19 +38,14 @@ python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 python3 script.py
+# GUI version
+python3 gui.py
 ```
 #### ویندوز
 
-پایتون را از سایت های معتبر دانلود کنید.
+فایل zip را استخراج کنید.
+فایل install.bat را اجرا کنید سپس فایل AdobeDownloaderSku.exe را اجرا کنید.
 
-برنامه ffmpeg را نصب کنید => [Soft98.ir](https://soft98.ir/multi-media/convert/789-ffmpeg-batch-av-converter.html)
-
-```bash
-git clone https://github.com/MadHo3/Adobe-Meetings-Downloader-Sku.git
-cd Adobe-Meetings-Downloader-Sku
-pip install -r requirements.txt
-python3 script.py
-```
 
 #### نکات :
 
