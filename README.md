@@ -65,4 +65,5 @@ python3 gui.py
 -- فایل گفتگوها در /chats/chats.txt ذخیره می‌شود.
 
 #### ویدیوی آموزشی (ویندوز)
-<!-- TODO: Add video tutorial for Windows usage -->
+
+[Video tutorial](https://uplod.ir/mza1m6i9wi47/Amoozesh.mp4.htm)
