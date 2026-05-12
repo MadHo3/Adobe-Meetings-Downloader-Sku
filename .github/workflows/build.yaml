@@ -33,7 +33,7 @@ jobs:
 
       - name: Create archive
         run: |
-          7z a -tzip -mx=9 AdobeDownloader_${{ github.ref_name }}_Windows.zip dist/AdobeDownloader.exe ffmpeg.exe install.bat
+          7z a -tzip -mx=9 AdobeDownloader_${{ github.ref_name }}_Windows.zip dist/AdobeDownloader.exe ffmpeg.exe ./win/install.bat
       
       - name: Upload to Release
         uses: softprops/action-gh-release@v1
