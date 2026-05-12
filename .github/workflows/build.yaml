@@ -23,11 +23,11 @@ jobs:
       - name: Download FFmpeg
         run: |
           curl -L -o ffmpeg.exe "https://github.com/7Na7iD7/adobe-Connect/raw/d4258ba156dca20850a7742b515a8d1c76e289fa/tool/ffmpeg.exe"
-          
+
       - name: Build EXE
         run: |
-          pyinstaller --onefile --windowed --name="AdobeDownloader" --add-binary="ffmpeg.exe;." ./gui/gui.py 
-          
+          pyinstaller --onefile --windowed --name="AdobeDownloader" ./gui/gui.py
+
       - name: Install 7-Zip
         run: |
           choco install 7zip -y
