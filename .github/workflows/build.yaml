@@ -26,7 +26,11 @@ jobs:
       - name: Download FFmpeg
         run: |
           curl -L -o ffmpeg.exe "https://github.com/7Na7iD7/adobe-Connect/raw/d4258ba156dca20850a7742b515a8d1c76e289fa/tool/ffmpeg.exe"
-      
+          
+      - name: Install 7zip
+        run: |
+          choco install 7zip -y
+
       - name: Create archive
         run: |
           7z a -tzip -mx=9 AdobeDownloader_${{ github.ref_name }}_Windows.zip dist/AdobeDownloader.exe ffmpeg.exe install.bat
