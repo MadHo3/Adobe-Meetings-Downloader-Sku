@@ -24,8 +24,8 @@ jobs:
         run: |
           pyinstaller --onefile --windowed --name="AdobeDownloader" ./gui/gui.py
           move dist\AdobeDownloader.exe .\
-
-          rmdir /s /q dist
+          Remove-Item -Recurse -Force dist
+          
       - name: Download FFmpeg
         run: |
           curl -L -o ffmpeg.exe "https://github.com/7Na7iD7/adobe-Connect/raw/d4258ba156dca20850a7742b515a8d1c76e289fa/tool/ffmpeg.exe"
