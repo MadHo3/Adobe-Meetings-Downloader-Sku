@@ -23,8 +23,6 @@ jobs:
       - name: Build EXE
         run: |
           pyinstaller --onefile --windowed --name="AdobeDownloader" ./gui/gui.py
-          move dist\AdobeDownloader.exe .\
-          Remove-Item -Recurse -Force dist
           
       - name: Download FFmpeg
         run: |
