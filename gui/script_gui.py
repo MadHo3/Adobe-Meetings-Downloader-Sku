@@ -177,14 +177,6 @@ def has_content(filepath):
         if size_bytes < 100 * 1024:
             return False
 
-        probe = ffmpeg.probe(filepath)
-        duration = float(probe["format"]["duration"])
-
-        bitrate = (size_bytes * 8) / duration if duration > 0 else 0
-
-        if bitrate < 10000:
-            return False
-
         return True
     except:
         return False
