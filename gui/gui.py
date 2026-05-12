@@ -11,10 +11,7 @@ from PySide6.QtWidgets import (
     QMessageBox,
 )
 from PySide6.QtCore import QThread, Signal
-import tqdm
-
-tqdm.tqdm.disable = True
-import script
+import script_gui
 
 
 class OutputCapturer:
@@ -44,7 +41,7 @@ class Worker(QThread):
         sys.stdout = OutputCapturer(self.log.emit)
 
         try:
-            script.main(url=self.url, st_id=self.st_id, nat_id=self.nat_id)
+            script_gui.main(url=self.url, st_id=self.st_id, nat_id=self.nat_id)
             self.done.emit(True, "Done.")
         except Exception as e:
             self.done.emit(False, str(e))

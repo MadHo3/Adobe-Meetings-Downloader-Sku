@@ -2,39 +2,42 @@ name: Build and Release
 
 on:
   push:
-    branches: [main]
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
   build-windows:
+    permissions:
+      contents: write
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - uses: actions/setup-python@v5
-      
+
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
           pip install pyinstaller
-      
+
       - name: Build EXE
         run: |
-          pyinstaller --onefile --windowed --name="AdobeDownloader" gui.py
-          
+          pyinstaller --onefile --windowed --name="AdobeDownloader" ./gui/gui.py
+          move dist\AdobeDownloader.exe .\
+
+          rmdir /s /q dist
       - name: Download FFmpeg
         run: |
           curl -L -o ffmpeg.exe "https://github.com/7Na7iD7/adobe-Connect/raw/d4258ba156dca20850a7742b515a8d1c76e289fa/tool/ffmpeg.exe"
-          
-      - name: Install 7zip
+
+      - name: Install 7-Zip
         run: |
           choco install 7zip -y
 
       - name: Create archive
         run: |
-          7z a -tzip -mx=9 AdobeDownloader_${{ github.ref_name }}_Windows.zip dist/AdobeDownloader.exe ffmpeg.exe ./win/install.bat
-      
+          7z a -tzip -mx=9 AdobeDownloader_${{ github.ref_name }}_Windows.zip AdobeDownloader.exe ffmpeg.exe ./gui/install.bat
+
       - name: Upload to Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
