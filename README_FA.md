@@ -41,7 +41,7 @@
 ### 🚀 راهنمای نصب و اجرا
 
 #### دانلود پروژه در اینترنت ملی 
-میتونین ریپازتوری برنامه رو از این [لینک](https://scorpian.ir/proxy/asset/MadHo3/Adobe-Meetings-Downloader-Sku/418623577) دانلود کنید
+میتونین ریپازتوری برنامه رو از این [لینک](https://scorpian.ir/proxy/asset/MadHo3/Adobe-Meetings-Downloader-Sku/419367877) دانلود کنید
 
 
 #### 1. نصب در ویندوز 
