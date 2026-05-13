@@ -12,6 +12,7 @@ from PySide6.QtWidgets import (
     QMessageBox,
 )
 from PySide6.QtCore import QThread, Signal
+from PySide6.QtGui import QIcon
 import script_gui
 
 
@@ -63,6 +64,7 @@ class MainWindow(QWidget):
         super().__init__()
         self.setWindowTitle("Adobe Meeting Downloader Sku")
         self.setFixedSize(500, 450)
+        self.setWindowIcon(QIcon("../assets/sku.ico"))
 
         layout = QVBoxLayout()
         layout.setSpacing(8)
@@ -174,6 +176,7 @@ class MainWindow(QWidget):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
+    app.setWindowIcon(QIcon("../assets/sku.ico"))
 
     window = MainWindow()
     window.show()
