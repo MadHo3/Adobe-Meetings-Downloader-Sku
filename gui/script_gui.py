@@ -35,54 +35,48 @@ def create_session(username, password, lms) -> tuple[requests.session, bool]:
 
 def download_class_files(s, url, filename):
 
-    run = True
-    if os.path.exists(filename):
-        answ = input("[!] Warning: Already exists. Do you want to rewrite it ? ([Y/n])")
-        if answ.lower() in ["n", "no"]:
-            run = False
+    try:
+        r = s.get(url, stream=True)
+        r.raise_for_status()
 
-    if run:
-        try:
-            r = s.get(url, stream=True)
-            r.raise_for_status()
+        with open("class.zip", "wb") as file:
+            for data in r.iter_content(chunk_size=1024):
+                file.write(data)
+        print("[+] Success: ZIP file downloaded successfully")
 
-            with open("class.zip", "wb") as file:
-                for data in r.iter_content(chunk_size=1024):
-                    file.write(data)
-            print("[+] Success: ZIP file downloaded successfully")
+        # Extract ZIP
+        os.makedirs(filename, exist_ok=True)
+        os.makedirs(f"{filename}/videos", exist_ok=True)
+        os.makedirs(f"{filename}/chats", exist_ok=True)
+        os.makedirs(f"{filename}/xml", exist_ok=True)
 
-            # Extract ZIP
-            os.makedirs(filename, exist_ok=True)
-            os.makedirs(f"{filename}/videos", exist_ok=True)
-            os.makedirs(f"{filename}/chats", exist_ok=True)
-            os.makedirs(f"{filename}/xml", exist_ok=True)
+        is_chat_exist = False
 
-            is_chat_exist = False
+        with zipfile.ZipFile("class.zip", "r") as zipf:
+            for file in zipf.infolist():
+                if ".flv" in file.filename:
+                    zipf.extract(file.filename, f"./{filename}/videos")
+                elif "sco_metadata" in file.filename:
+                    zipf.extract(file.filename, f"./{filename}/chats")
+                    is_chat_exist = True
+                else:
+                    zipf.extract(file.filename, f"./{filename}/xml")
 
-            with zipfile.ZipFile("class.zip", "r") as zipf:
-                for file in zipf.infolist():
-                    if ".flv" in file.filename:
-                        zipf.extract(file.filename, f"./{filename}/videos")
-                    elif "sco_metadata" in file.filename:
-                        zipf.extract(file.filename, f"./{filename}/chats")
-                        is_chat_exist = True
-                    else:
-                        zipf.extract(file.filename, f"./{filename}/xml")
+        print("[+] Success: ZIP file extracted successfully")
 
-            print("[+] Success: ZIP file extracted successfully")
+        os.remove("class.zip")
 
-            os.remove("class.zip")
+        # main path
+        path = os.getcwd()
+        if is_chat_exist:
+            extract_chat(filename)
 
-            # main path
-            path = os.getcwd()
-            if is_chat_exist:
-                extract_chat(filename)
+        os.chdir(path)
+        return convert(filename)
 
-            os.chdir(path)
-            return convert(filename)
+    except HTTPError as e:
+        print(f"[-] Failed: Download request failed => {e}")
 
-        except HTTPError as e:
-            print(f"[-] Failed: Download request failed => {e}")
     return False
 
 
