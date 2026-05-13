@@ -1,6 +1,6 @@
 # 📥 Adobe Meetings Downloader SKU
 
-> **ابزار خودکار دانلود و تبدیل جلسات ضبط‌شده Adobe Connect مخصوص دانشجویان دانشگاه شهرکرد (SKU)**
+> **ابزار خودکار دانلود و تبدیل جلسات ضبط‌ شده Adobe Connect مخصوص دانشجویان دانشگاه شهرکرد (SKU)**
 
 [![Python Version](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -15,7 +15,7 @@
 
 ---
 
-[![Watch the video](J8Jhu.png)](https://uplod.ir/mza1m6i9wi47/Amoozesh.mp4.htm)
+[![Watch the video](./assets/J8Jhu.png)](https://uplod.ir/mza1m6i9wi47/Amoozesh.mp4.htm)
 
 - لینک داخلی دانلود ویدیو : https://uplod.ir/mza1m6i9wi47/Amoozesh.mp4.htm 
 
@@ -28,7 +28,7 @@
 ### 📸 نمایش رابط کاربری
 | محیط گرافیکی (GUI) |
 |:---:|
-| ![GUI Screenshot](gui.jpg) |
+| ![GUI Screenshot](./assets/gui.jpg) |
 
 ### ✨ قابلیت‌های کلیدی
 - **ورود خودکار:** لاگین هوشمند به سامانه آموزش مجازی دانشگاه
@@ -36,7 +36,7 @@
 - **ترکیب ویدیوها:** چسباندن قطعات ویدیو با حفظ ترتیب زمانی با استفاده از FFmpeg
 - **مدیریت چت:** استخراج گفتگوهای متنی (Chat Logs) و ذخیره در فایل جداگانه
 - **اشتراک‌گذاری صفحه:** پردازش مجزای بخش‌های Screen Sharing
-- **رابط کاربری (GUI):** دارای نسخه گرافیکی برای استفاده آسان کاربران ویندوز
+- **رابط کاربری (GUI):** دارای نسخه گرافیکی برای استفاده آسان کاربران
 
 ### 🚀 راهنمای نصب و اجرا
 
@@ -51,10 +51,11 @@
 3. فایل AdobeDownloaderSku.exe را باز کنید
 
 ```
-#### 2. نصب در لینوکس (Ubuntu/Debian)
+#### 2. نصب در لینوکس / مک
 ```bash
 # نصب پیش‌نیازها
 sudo apt update && sudo apt install ffmpeg git -y
+sudo pacman -S ffmepg # For Arch
 
 # کلون کردن پروژه
 git clone https://github.com/MadHo3/Adobe-Meetings-Downloader-Sku.git
@@ -71,6 +72,8 @@ python3 script.py
 # یا اجرای نسخه گرافیکی
 python3 gui.py
 ```
+> **توجه:** پشتیبانی از macOS در حد تئوری است و هنوز تست نشده. نیازمند Python و FFmpeg می‌باشد.
+
 
 #### 📁 ساختار خروجی
 
@@ -78,8 +81,8 @@ python3 gui.py
 Adobe-Meetings-Downloader-Sku/
 ├── videos/          ← ویدیوهای نهایی merged
 ├── chats/           ← فایل‌های متنی چت جلسات
-├── downloads/       ← فایل‌های موقت ZIP
-└── logs/            ← گزارش خطاها (در صورت وجود)
+├── downloads/       ← فایل هایی مانند جزوه کلاس ها (به زودی)
+└── metadata/        ← XML فایل های خام (برای استفاده در آینده)
 ```
 
 #### 🤝 مشارکت
