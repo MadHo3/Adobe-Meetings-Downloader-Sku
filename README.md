@@ -14,6 +14,10 @@
 
 ---
 
+[![Watch the video](J8Jhu.jpg)](https://uplod.ir/mza1m6i9wi47/Amoozesh.mp4.htm)
+
+- لینک داخلی دانلود ویدیو : https://uplod.ir/mza1m6i9wi47/Amoozesh.mp4.htm 
+
 <a name="english"></a>
 
 ## English
@@ -26,7 +30,7 @@ A specialized tool designed to automate the process of downloading and convertin
 
 |GUI |
 |:---:|
-| ![GUI Screenshot](screenshots/gui.jpg) |
+| ![GUI Screenshot](gui.jpg) |
 
 #### ✨ Key Features
 
