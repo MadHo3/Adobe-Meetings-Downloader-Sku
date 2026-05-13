@@ -1,4 +1,4 @@
-name: Build and Release
+:wname: Build and Release
 
 on:
   push:
@@ -26,7 +26,7 @@ jobs:
 
       - name: Build EXE
         run: |
-          pyinstaller --onefile --windowed --name="AdobeDownloader" ./gui/gui.py
+          pyinstaller --onefile --windowed --name="AdobeDownloader" --icon=./assets/sku.ico ./gui/gui.py
 
       - name: Install 7-Zip
         run: |
