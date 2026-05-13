@@ -61,7 +61,7 @@ def download_class_files(s, url, filename):
                     zipf.extract(file.filename, f"./{filename}/chats")
                     is_chat_exist = True
                 else:
-                    zipf.extract(file.filename, f"./{filename}/downloads")
+                    zipf.extract(file.filename, f"./{filename}/metadata")
 
         print("[+] Success: ZIP file extracted successfully")
 
