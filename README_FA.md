@@ -15,7 +15,7 @@
 
 ---
 
-[![Watch the video](Thumbnail.jpg)](https://uplod.ir/mza1m6i9wi47/Amoozesh.mp4.htm)
+[![Watch the video](J8Jhu.png)](https://uplod.ir/mza1m6i9wi47/Amoozesh.mp4.htm)
 
 - لینک داخلی دانلود ویدیو : https://uplod.ir/mza1m6i9wi47/Amoozesh.mp4.htm 
 
