@@ -61,7 +61,8 @@ def download_class_files(s, url, filename):
             os.makedirs(filename, exist_ok=True)
             os.makedirs(f"{filename}/videos", exist_ok=True)
             os.makedirs(f"{filename}/chats", exist_ok=True)
-            os.makedirs(f"{filename}/xml", exist_ok=True)
+            os.makedirs(f"{filename}/downloads", exist_ok=True)
+            os.makedirs(f"{filename}/metadata", exist_ok=True)
 
             is_chat_exist = False
 
@@ -73,7 +74,7 @@ def download_class_files(s, url, filename):
                         zipf.extract(file.filename, f"./{filename}/chats")
                         is_chat_exist = True
                     else:
-                        zipf.extract(file.filename, f"./{filename}/xml")
+                        zipf.extract(file.filename, f"./{filename}/metadata")
 
             print("[+] Success: ZIP file extracted successfully")
 
