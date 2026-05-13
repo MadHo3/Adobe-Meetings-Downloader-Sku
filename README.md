@@ -14,7 +14,7 @@
 
 ---
 
-[![Watch the video](J8Jhu.jpg)](https://uplod.ir/mza1m6i9wi47/Amoozesh.mp4.htm)
+[![Watch the video](./assets/J8Jhu.jpg)](https://uplod.ir/mza1m6i9wi47/Amoozesh.mp4.htm)
 
 - لینک داخلی دانلود ویدیو : https://uplod.ir/mza1m6i9wi47/Amoozesh.mp4.htm 
 
@@ -30,16 +30,22 @@ A specialized tool designed to automate the process of downloading and convertin
 
 |GUI |
 |:---:|
-| ![GUI Screenshot](gui.jpg) |
+| ![GUI Screenshot](./assets/gui.jpg) |
 
 #### ✨ Key Features
 
 ·  Auto-Authentication: Securely logs into the university portal using student credentials
+
 ·  Automated Extraction: Downloads the recording ZIP, extracts components, and sorts them
+
 ·  Seamless Merging: Uses FFmpeg to merge separate video chunks into a single, playable file
+
 ·  Chat Log Recovery: Extracts all session messages and saves them as a text file
+
 ·  Screen Share Support: Automatically detects and processes secondary screen-sharing streams
+
 ·  User-Friendly GUI: Simple graphical interface for users who prefer not to use the terminal
+
 
 #### 🚀 Getting Started
 
