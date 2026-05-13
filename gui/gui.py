@@ -109,11 +109,6 @@ class MainWindow(QWidget):
 
         # Progress
         self.progress = QProgressBar()
-        self.progress.setStyleSheet("""
-            QProgressBar::chunk {
-                background-color: #4CAF50;
-            }
-        """)
         layout.addWidget(self.progress)
 
         # Log
@@ -168,17 +163,9 @@ class MainWindow(QWidget):
         self.progress.setValue(100 if success else 0)
 
         if not success:
-            self.progress.setStyleSheet("""
-                QProgressBar::chunk {
-                    background-color: red;
-                }
-            """)
+            self.progress.setStyleSheet("background-color: red;")
         else:
-            self.progress.setStyleSheet("""
-                QProgressBar::chunk {
-                    background-color: #4CAF50;
-                }
-            """)
+            self.progress.setStyleSheet("background-color: #4CAF50;")
 
         self.log_output.append(f"\n{msg}")
         self.btn.setEnabled(True)
