@@ -1,69 +1,88 @@
-# Adobe Meetings Downloader SKU
+# 📥 Adobe Meetings Downloader SKU
+
+> **ابزار خودکار دانلود و تبدیل جلسات ضبط‌شده Adobe Connect مخصوص دانشجویان دانشگاه شهرکرد (SKU)**
+
+[![Python Version](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![FFmpeg](https://img.shields.io/badge/dependency-ffmpeg-orange.svg)](https://ffmpeg.org/)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey)]()
 
 ---
 
-## فارسی
+| [English](README.md) | [Persian](README_FA.md) |
+| :---: | :---: |
 
-### درباره پروژه
-این ابزار برای دانلود و تبدیل خودکار جلسات ضبط‌ شده **Adobe Connect** از سامانهٔ آموزش مجازی دانشگاه شهرکرد (SKU) طراحی شده است.  
-با وارد کردن لینک کلاس، شماره دانشجویی و کد ملی، اسکریپت وارد حساب کاربری شما می‌شود، فایل ZIP کلاس را دانلود کرده، ویدیوهای FLV را استخراج و به ترتیب صحیح به هم می‌چسباند، همچنین گفتگوی متنی کلاس (چت) را جدا کرده و در فایل متنی ذخیره می‌کند.  
-اگر در جلسه اشتراک‌گذاری صفحه وجود داشته باشد، آن را نیز به صورت جداگانه پردازش می‌کند.  
-به دلیل محدودیت‌های ذاتی **Adobe Connect** ممکن است در برخی موارد ترکیب کامل جلسه ممکن نباشد.
+---
 
-### پیش‌نیازها
-- **Python 3.6** یا بالاتر
-- **pip**
-- **ffmpeg**
+<a name="english"></a>
 
-### نصب و راه‌اندازی
+## English
 
-#### لینوکس
+#### 📝 About the Project
+
+A specialized tool designed to automate the process of downloading and converting Adobe Connect recordings from Shahrekord University's (SKU) LMS. It eliminates the manual struggle of piecing together FLV files by handling authentication, downloading, and merging automatically.
+
+#### 📸 Screenshots
+
+|GUI |
+|:---:|
+| ![GUI Screenshot](screenshots/gui.jpg) |
+
+#### ✨ Key Features
+
+·  Auto-Authenticati
+on: Securely logs into the university portal using student credentials
+·  Automated Extraction: Downloads the recording ZIP, extracts components, and sorts them
+·  Seamless Merging: Uses FFmpeg to merge separate video chunks into a single, playable file
+·  Chat Log Recovery: Extracts all session messages and saves them as a text file
+·  Screen Share Support: Automatically detects and processes secondary screen-sharing streams
+·  User-Friendly GUI: Simple graphical interface for users who prefer not to use the terminal
+
+#### 🚀 Getting Started
+
+Prerequisites
+
+· Python 3.6+
+· FFmpeg (Must be added to your system environment variables)
+
+
+Installation (Linux/macOS)
+
 ```bash
-# Debian / Ubuntu
-sudo apt update && sudo apt install ffmpeg -y
 git clone https://github.com/MadHo3/Adobe-Meetings-Downloader-Sku.git
 cd Adobe-Meetings-Downloader-Sku
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 python3 script.py
-# GUI version
-python3 gui.py
-
-# Arch
-sudo pacman -S ffmpeg
-git clone https://github.com/MadHo3/Adobe-Meetings-Downloader-Sku.git
-cd Adobe-Meetings-Downloader-Sku
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-python3 script.py
-# GUI version
-python3 gui.py
 ```
-#### ویندوز
 
-فایل zip را استخراج کنید => [Download](https://scorpian.ir/proxy/asset/MadHo3/Adobe-Meetings-Downloader-Sku/418623577)
+#### Installation (Windows)
 
-فایل install.bat را اجرا کنید سپس فایل AdobeDownloaderSku.exe را اجرا کنید.
+```batch
+# Option 1: Run install.bat as Administrator, then launch AdobeDownloaderSku.exe
+# Option 2: Using Python directly
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+python gui.py
+```
+
+#### 📁 Output Structure
+
+```
+Adobe-Meetings-Downloader-Sku/
+├── videos/          ← Final merged videos
+├── chats/           ← Session chat log files
+├── downloads/       ← Temporary ZIP files
+└── logs/            ← Error reports (if any)
+```
 
 
-#### نکات :
+#### 🤝 Contributing
 
-کد ملی به عنوان رمز عبور استفاده می‌شود.
+Your feedback, ideas, and bug reports help make this tool better. Please share them via the Issues section.
 
-پس از ورود موفق، اسکریپت به صورت خودکار :
 
--- فایل ZIP کلاس را دانلود می‌کند.
+Developed with ❤️ for SKU Students
 
--- ویدیوها را استخراج کرده.
-
--- فایل نهایی ترکیب‌شده با نام .flv در پوشه /videos/ ذخیره می‌شود.
-
--- در صورت وجود اشتراک‌گذاری صفحه، فایل جداگانه screen.flv ایجاد می‌کند.
-
--- فایل گفتگوها در /chats/chats.txt ذخیره می‌شود.
-
-#### ویدیوی آموزشی (ویندوز)
-
-[Video tutorial](https://uplod.ir/mza1m6i9wi47/Amoozesh.mp4.htm)
