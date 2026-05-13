@@ -46,8 +46,6 @@ def download_class_files(s, url, filename):
             r = s.get(url, stream=True)
             r.raise_for_status()
 
-            file_size = int(r.headers.get("content-length"))
-
             with open("class.zip", "wb") as file:
                 for data in r.iter_content(chunk_size=1024):
                     file.write(data)
@@ -85,6 +83,7 @@ def download_class_files(s, url, filename):
 
         except HTTPError as e:
             print(f"[-] Failed: Download request failed => {e}")
+    return False
 
 
 def extract_chat(filename):
@@ -205,9 +204,9 @@ def main(url=None, st_id=None, nat_id=None):
         username = "k" + st_id
 
     if nat_id is None:
-        national_id = int(input("Enter National-ID: "))
+        national_id = str(input("Enter National-ID: "))
     else:
-        national_id = int(nat_id)
+        national_id = str(nat_id)
 
     print("***********************************************************")
 
