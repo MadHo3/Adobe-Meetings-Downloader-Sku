@@ -43,7 +43,7 @@ python3 gui.py
 ```
 #### ویندوز
 
-فایل zip را استخراج کنید => [Download](https://uplod.ir/zai9c3qhum60/AdobeDownloaderSku.zip.htm)
+فایل zip را استخراج کنید => [Download](https://scorpian.ir/proxy/asset/MadHo3/Adobe-Meetings-Downloader-Sku/419127599)
 
 فایل install.bat را اجرا کنید سپس فایل AdobeDownloaderSku.exe را اجرا کنید.
 
