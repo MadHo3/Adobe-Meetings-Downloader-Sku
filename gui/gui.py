@@ -52,7 +52,7 @@ class Worker(QThread):
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Adobe Meeting Downloader")
+        self.setWindowTitle("Adobe Meeting Downloader Sku")
         self.setFixedSize(500, 450)
 
         layout = QVBoxLayout()
