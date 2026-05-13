@@ -7,8 +7,9 @@ from natsort import natsorted
 import xml.etree.ElementTree as ET
 
 
-def create_session(username, password, lms) -> requests.session:
+def create_session(username, password, lms) -> tuple[requests.session, bool]:
 
+    is_login = False
     s = requests.session()
     url = f"https://lms{lms}.sku.ac.ir/system/login?domain=lms{lms}.sku.ac.ir&next=/admin?domain=lms{lms}.sku.ac.ir&set-lang=en"
 
@@ -74,16 +75,16 @@ def download_class_files(s, url, filename):
 
             os.remove("class.zip")
 
+            # main path
+            path = os.getcwd()
+            if is_chat_exist:
+                extract_chat(filename)
+
+            os.chdir(path)
+            return convert(filename)
+
         except HTTPError as e:
             print(f"[-] Failed: Download request failed => {e}")
-
-        # main path
-        path = os.getcwd()
-        if is_chat_exist:
-            extract_chat(filename)
-
-        os.chdir(path)
-        convert(filename)
 
 
 def extract_chat(filename):
@@ -106,6 +107,7 @@ def extract_chat(filename):
 
 
 def convert(dir_name):
+    answer = True
 
     os.chdir(f"{dir_name}/videos")
     vid_list = natsorted(os.listdir())
@@ -145,6 +147,7 @@ def convert(dir_name):
             ).run(overwrite_output=True)
         except Exception as e:
             print(f"[-] Failed: Couldn't convert the file => {e}")
+            answer = False
 
         if share_is_exist:
             try:
@@ -157,6 +160,7 @@ def convert(dir_name):
                 ).run(overwrite_output=True)
             except Exception as e:
                 print(f"[-] Failed: Couldn't convert the file => {e}")
+                answer = False
 
         for vid in vid_list:
             os.remove(vid)
@@ -166,6 +170,8 @@ def convert(dir_name):
 
     if os.path.exists("screenlist.txt"):
         os.remove("screenlist.txt")
+
+    return answer
 
 
 def has_content(filepath):
@@ -212,9 +218,13 @@ def main(url=None, st_id=None, nat_id=None):
     user_session, is_login = create_session(username, national_id, lms_server)
 
     if is_login:
-        download_class_files(user_session, download_url, class_code)
+        if not download_class_files(user_session, download_url, class_code):
+            return 1
     else:
         print("[-] Failed: Please login to your account")
+        return 1
+
+    return 0
 
 
 if __name__ == "__main__":

@@ -41,8 +41,10 @@ class Worker(QThread):
         sys.stdout = OutputCapturer(self.log.emit)
 
         try:
-            script_gui.main(url=self.url, st_id=self.st_id, nat_id=self.nat_id)
-            self.done.emit(True, "Done.")
+            if script_gui.main(url=self.url, st_id=self.st_id, nat_id=self.nat_id) == 0:
+                self.done.emit(True, "Done.")
+            else:
+                self.done.emit(False, "Error.")
         except Exception as e:
             self.done.emit(False, str(e))
         finally:
@@ -138,6 +140,8 @@ class MainWindow(QWidget):
     def finish(self, success, msg):
         self.progress.setMaximum(100)
         self.progress.setValue(100 if success else 0)
+        if not success:
+            self.progress.setStyleSheet("background-color: red;")
         self.log_output.append(f"\n{msg}")
         self.btn.setEnabled(True)
 
