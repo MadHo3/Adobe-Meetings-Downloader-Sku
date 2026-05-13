@@ -1,6 +1,6 @@
 # 📥 Adobe Meetings Downloader SKU
 
-> **ابزار خودکار دانلود و تبدیل جلسات ضبط‌شده Adobe Connect مخصوص دانشجویان دانشگاه شهرکرد (SKU)**
+> **ابزار خودکار دانلود و تبدیل جلسات ضبط‌ شده Adobe Connect مخصوص دانشجویان دانشگاه شهرکرد (SKU)**
 
 [![Python Version](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -34,8 +34,7 @@ A specialized tool designed to automate the process of downloading and convertin
 
 #### ✨ Key Features
 
-·  Auto-Authenticati
-on: Securely logs into the university portal using student credentials
+·  Auto-Authentication: Securely logs into the university portal using student credentials
 ·  Automated Extraction: Downloads the recording ZIP, extracts components, and sorts them
 ·  Seamless Merging: Uses FFmpeg to merge separate video chunks into a single, playable file
 ·  Chat Log Recovery: Extracts all session messages and saves them as a text file
@@ -50,7 +49,7 @@ Prerequisites
 · FFmpeg (Must be added to your system environment variables)
 
 
-Installation (Linux/macOS)
+#### Installation (Linux/macOS)
 
 ```bash
 git clone https://github.com/MadHo3/Adobe-Meetings-Downloader-Sku.git
@@ -58,8 +57,11 @@ cd Adobe-Meetings-Downloader-Sku
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-python3 script.py
+# python3 script.py => CLI
+# python3 gui/gui.py => GUI
+
 ```
+> **Note:** macOS support is theoretical (untested). Python and FFmpeg are required.
 
 #### Installation (Windows)
 
@@ -69,7 +71,8 @@ python3 script.py
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
-python gui.py
+# python script.py => CLI
+# python gui/gui.py => GUI
 ```
 
 #### 📁 Output Structure
@@ -78,8 +81,8 @@ python gui.py
 Adobe-Meetings-Downloader-Sku/
 ├── videos/          ← Final merged videos
 ├── chats/           ← Session chat log files
-├── downloads/       ← Temporary ZIP files
-└── logs/            ← Error reports (if any)
+├── downloads/       ← Attachments like PDFs shared by instructor (coming soon)
+└── metadata/        ← Raw XML files from the class package (for future use)
 ```
 
 
@@ -89,4 +92,3 @@ Your feedback, ideas, and bug reports help make this tool better. Please share t
 
 
 Developed with ❤️ for SKU Students
-

@@ -1,4 +1,5 @@
 import sys
+import os
 from PySide6.QtWidgets import (
     QApplication,
     QWidget,
@@ -40,10 +41,18 @@ class Worker(QThread):
         old_stdout = sys.stdout
         sys.stdout = OutputCapturer(self.log.emit)
 
+        original_path = os.getcwd()
+
         try:
-            script_gui.main(url=self.url, st_id=self.st_id, nat_id=self.nat_id)
-            self.done.emit(True, "Done.")
+            result = script_gui.main(url=self.url, st_id=self.st_id, nat_id=self.nat_id)
+            os.chdir(original_path)
+
+            if result == 0:
+                self.done.emit(True, "Done.")
+            else:
+                self.done.emit(False, "Error.")
         except Exception as e:
+            os.chdir(original_path)
             self.done.emit(False, str(e))
         finally:
             sys.stdout = old_stdout
@@ -52,7 +61,7 @@ class Worker(QThread):
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Adobe Meeting Downloader")
+        self.setWindowTitle("Adobe Meeting Downloader Sku")
         self.setFixedSize(500, 450)
 
         layout = QVBoxLayout()
@@ -125,9 +134,23 @@ class MainWindow(QWidget):
             QMessageBox.warning(self, "Error", "National code must be digits only.")
             return
 
+        # Overwrite check
+        class_code = url.rstrip("/").split("/")[-1]
+        if os.path.exists(class_code):
+            reply = QMessageBox.question(
+                self,
+                "Warning",
+                "This class already exists!\nDo you want to overwrite it?",
+                QMessageBox.Yes | QMessageBox.No,
+                QMessageBox.No,
+            )
+            if reply == QMessageBox.No:
+                return
+
         self.btn.setEnabled(False)
         self.progress.setMinimum(0)
         self.progress.setMaximum(0)
+        self.progress.setStyleSheet("")
         self.log_output.clear()
 
         self.worker = Worker(url.rstrip("/"), st_id, nat_id)
@@ -138,6 +161,12 @@ class MainWindow(QWidget):
     def finish(self, success, msg):
         self.progress.setMaximum(100)
         self.progress.setValue(100 if success else 0)
+
+        if not success:
+            self.progress.setStyleSheet("background-color: red;")
+        else:
+            self.progress.setStyleSheet("background-color: #4CAF50;")
+
         self.log_output.append(f"\n{msg}")
         self.btn.setEnabled(True)
 
