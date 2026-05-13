@@ -54,6 +54,10 @@ Prerequisites
 · Python 3.6+
 · FFmpeg (Must be added to your system environment variables)
 
+```bash
+sudo apt update && sudo apt install ffmpeg git -y
+sudo pacman -S ffmepg # For Arch
+```
 
 #### Installation (Linux/macOS)
 
